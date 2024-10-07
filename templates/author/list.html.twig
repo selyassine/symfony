@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste des Auteurs</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des Auteurs</h1>
+
+    {% if authors is not defined or authors is empty %}
+        <p>Aucun auteur disponible.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>nombre books</th>
+                    <th>images</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for author in authors %}
+                    <tr>
+                        <td>{{ author.id }}</td>
+                        <td>{{ author.username|upper }}</td>
+                        <td>{{ author.email }}</td>
+                        <td>{{ author.nbbook }}</td>
+                        <td><img width="30%" src="{{ asset(author.image) }}" alt="{{ author.username }}"></td>
+                        <td><a href="{{ path('authorDetails', {'id': author.id}) }}">Détails</a></td>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <h1>le nombre des acteurs : {{authors|length}}</h1>
+    <p>Nombre total de livres : {{ authors | map(author => author.nbbook) | reduce((a, b) => a + b, 0) }}</p>
+
+</body>
+</html>
+
+
